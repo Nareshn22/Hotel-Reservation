@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReservationService } from '../reservation/reservation.service';
-import { Reservation } from '../models/reservation';
+import { AddOrUpdateReservation } from '../models/reservation';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -17,46 +17,55 @@ export class ReservationFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private reservationService: ReservationService,
     private router: Router,
-    private activatedRoute: ActivatedRoute){
+    private activatedRoute: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
     this.reservationForm = this.formBuilder.group({
-      checkInDate: ['', Validators.required],
-      checkOutDate: ['', Validators.required],
-      guestName: ['', Validators.required],
-      guestEmail: ['', [Validators.required, Validators.email]],
-      roomNumber: ['', Validators.required]
+      check_in_date: ['', Validators.required],
+      check_out_date: ['', Validators.required],
+      guest_name: ['', Validators.required],
+      guest_email: ['', [Validators.required, Validators.email]],
+      room_number: ['', Validators.required]
     })
 
     let id = this.activatedRoute.snapshot.paramMap.get('id')
 
-    if(id){
+    if (id) {
       let reservation = this.reservationService.getReservation(id)
 
-      if(reservation)
+      if (reservation)
         this.reservationForm.patchValue(reservation)
     }
   }
 
   onSubmit() {
-    if(this.reservationForm.valid){
-
-      let reservation: Reservation = this.reservationForm.value;
+    if (this.reservationForm.valid) {
+const a = 10;
+      let reservation: AddOrUpdateReservation = this.reservationForm.value;
 
       let id = this.activatedRoute.snapshot.paramMap.get('id')
 
-      if(id){
+      if (id) {
         // Update
-        this.reservationService.updateReservation(id, reservation)
+        this.reservationService.updateReservation(id, reservation).subscribe(res => {
+
+        }, err => {
+
+        });
       } else {
         // New
-        this.reservationService.addReservation(reservation)   
+        this.reservationService.addReservation(reservation).subscribe(res => {
+          console.log(res);
+          this.router.navigate(['/list']);
+        }, err => {
+          console.log(err);
+        });
 
       }
 
-      this.router.navigate(['/list'])
+      
     }
   }
 
