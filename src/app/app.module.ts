@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeModule } from './home/home.module';
 import { ReservationModule } from './reservation/reservation.module';
-import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,9 +16,10 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     HomeModule,
     ReservationModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
-  providers: [],
+  providers: [provideHttpClient(withFetch())],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

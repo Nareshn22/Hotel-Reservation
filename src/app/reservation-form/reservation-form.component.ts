@@ -23,8 +23,8 @@ export class ReservationFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.reservationForm = this.formBuilder.group({
-      check_in_date: ['', Validators.required],
-      check_out_date: ['', Validators.required],
+      //check_in_date: ['', Validators.required],
+      //check_out_date: ['', Validators.required],
       guest_name: ['', Validators.required],
       guest_email: ['', [Validators.required, Validators.email]],
       room_number: ['', Validators.required]
@@ -49,20 +49,32 @@ const a = 10;
 
       if (id) {
         // Update
-        this.reservationService.updateReservation(id, reservation).subscribe(res => {
-
-        }, err => {
-
+        this.reservationService.addReservation(reservation).subscribe({
+          next: (res) => { 
+            console.log(res);
+            this.router.navigate(['/list']);
+          },
+          error: (err) => { 
+            console.log(err); 
+          },
+          complete: () => { 
+            console.log('Request completed');
+          }
         });
       } else {
         // New
-        this.reservationService.addReservation(reservation).subscribe(res => {
-          console.log(res);
-          this.router.navigate(['/list']);
-        }, err => {
-          console.log(err);
+        this.reservationService.addReservation(reservation).subscribe({
+          next: (res) => {
+            console.log(res);
+            this.router.navigate(['/list']);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            console.log('Reservation submission completed.');
+          }
         });
-
       }
 
       

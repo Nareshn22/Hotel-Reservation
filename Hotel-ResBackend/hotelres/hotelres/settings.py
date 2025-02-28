@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_swagger',       # Swagger 
+    #'rest_framework_swagger',       # Swagger 
     'rest_framework',               # Django rest framework
     'drf_yasg',                   # Yet Another Swagger generator
     'reservations',
@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'hotelres.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'reservation',
+        'NAME': 'new_res',
         'USER': 'root',
         'PASSWORD': 'test@123',
         'HOST': 'localhost',
